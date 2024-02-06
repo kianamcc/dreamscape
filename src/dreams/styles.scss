@@ -1,0 +1,39 @@
+#dreams {
+  //   display: flex;
+  //   justify-content: center;
+  padding: 0px 25px;
+}
+
+.dream-entries-container {
+  display: flex;
+  justify-content: center;
+  background-color: purple;
+
+  padding: 16px;
+}
+
+.active-dream-description {
+  background-color: pink;
+  flex: 1;
+}
+
+.dream-entry {
+  display: flex;
+}
+
+.dream-entry-title {
+  width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dream-container {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.active {
+  display: block;
+}

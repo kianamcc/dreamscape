@@ -1,0 +1,12 @@
+nav {
+  box-shadow: 2px 2px 2px purple;
+  padding: 10px;
+  ul {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+  }
+  li:last-child {
+    margin-left: auto;
+  }
+}
