@@ -1,2 +1,34 @@
 #home {
+  height: 50vh;
+}
+
+.home-title {
+  font-size: 2.5rem;
+}
+
+.home-subtitle {
+  font-size: 1.2rem;
+}
+
+.home-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.home-get-started-button {
+  height: 35px;
+  width: 150px;
+  border-width: 1.5px;
+  border-color: #ffff #75747b #75747b #ffff;
+  border-style: solid;
+}
+
+.home-get-started-button-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }

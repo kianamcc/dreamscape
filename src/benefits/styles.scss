@@ -1,0 +1,35 @@
+#benefits {
+  padding: 0px 25px;
+  height: 100vh;
+}
+
+.benefits-container {
+  padding: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  height: 100%;
+}
+
+.benefit {
+  border: 2px solid purple;
+  border-radius: 20px;
+  width: 100%;
+  height: 250px;
+  display: flex;
+  padding: 16px;
+  justify-content: center;
+}
+
+@media only screen and (min-width: 321px) {
+  .benefits-container {
+    flex-direction: column;
+  }
+}
+
+@media only screen and (min-width: 569px) {
+  .benefits-container {
+    flex-direction: row;
+  }
+}

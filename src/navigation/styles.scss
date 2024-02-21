@@ -5,8 +5,35 @@ nav {
     list-style: none;
     display: flex;
     gap: 25px;
+
+    .user-li {
+      margin-left: auto;
+    }
   }
-  li:last-child {
-    margin-left: auto;
-  }
+}
+
+.user-nav {
+  position: relative;
+}
+
+.user-button {
+  color: white;
+  background: none;
+  border: none;
+}
+
+.user-dropdown {
+  position: absolute;
+  width: 250px;
+  height: 150px;
+  top: 35px;
+  right: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: white;
+  border-width: 2px;
+  border-color: #eaeaea #75747b #75747b #eaeaea;
+  border-style: solid;
 }

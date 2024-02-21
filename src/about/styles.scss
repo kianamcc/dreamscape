@@ -1,0 +1,20 @@
+@use "../variables";
+
+#about {
+  //   height: 50vh;
+}
+
+.about-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+
+  @media only screen and (min-width: variables.$mobile) {
+    padding: 50px;
+  }
+
+  @media only screen and (min-width: variables.$tablet) {
+    padding: 100px;
+  }
+}

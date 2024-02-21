@@ -1,0 +1,53 @@
+$border-width: 2px;
+$border-color: #eaeaea #75747b #75747b #eaeaea;
+$border-style: solid;
+
+.login-form {
+  width: 50%;
+  height: 50%;
+  background-color: #ffff;
+  position: absolute;
+  left: 50%;
+  top: 50%; /* Added to vertically center */
+  transform: translate(-50%, -50%); /* Added to adjust position */
+  border-width: $border-width;
+  border-style: $border-style;
+  border-color: $border-color;
+}
+
+.close-button-container {
+  float: right;
+}
+
+.login-form-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  //   flex: 1;
+  gap: 20px;
+  height: 100%;
+}
+
+.form-inputs {
+  display: flex;
+  width: 80%;
+  gap: 8px;
+  flex-direction: column;
+}
+
+.login-form-input {
+  height: 35px;
+  border-width: $border-width;
+  border-style: $border-style;
+  border-color: $border-color;
+}
+
+.login-button {
+  padding: 5px 25px;
+  border-width: $border-width;
+  border-style: $border-style;
+  border-color: $border-color;
+  color: white;
+  background-color: #b967ff;
+}
