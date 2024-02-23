@@ -22,11 +22,8 @@ const app = express();
 
 app.use(express.json());
 app.use(cors());
-// Middleware to parse incoming request bodies
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-// eslint-disable-next-line no-undef
-// const PORT = process.env.PORT || 5000;
 
 const MONGODB_URI = process.env.MONGODB;
 

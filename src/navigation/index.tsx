@@ -1,6 +1,10 @@
 import { User } from "../App";
 import { useState } from "react";
 
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+
 import "./styles.scss";
 
 import LoginForm from "../login";
@@ -8,55 +12,75 @@ import LoginForm from "../login";
 interface props {
   user: User;
   handleForm: () => void;
+  showLoginForm: boolean;
   signOut: () => void;
-  // handleLogin: (user: User) => void;
   userHandler: (token: string) => void;
+  form: "signup" | "login";
+  toggleForm: () => void;
 }
 
-const Navigation = ({ user, signOut, userHandler }: props) => {
+const Navigation = ({
+  user,
+  signOut,
+  userHandler,
+  handleForm,
+  showLoginForm,
+  form,
+  toggleForm,
+}: props) => {
   const [showDropdown, setShowDropdown] = useState(false);
-  const [showLoginForm, setShowLoginForm] = useState(false);
 
   const handleClick = () => {
-    if (user.identifier || user.username) {
+    if (user.username) {
       setShowDropdown((prev) => !prev);
     } else {
-      setShowLoginForm((prev) => !prev);
+      handleForm();
     }
   };
 
-  console.log(
-    "user",
-    user,
-    "test",
-    user ? user.identifier : "Login or Sign up"
-  );
-
   return (
-    <section>
+    <section id="nav">
       <nav>
-        <ul className="test">
-          <li>Home</li>
-          <li>About</li>
-          <li className="user-li">
+        <ul>
+          <li>
+            <Link className="nav-link" to="/">
+              Home
+            </Link>
+          </li>
+          {JSON.stringify(user) !== "{}" && (
+            <li>
+              <Link className="nav-link" to="/dreams">
+                Dreams
+              </Link>
+            </li>
+          )}
+          <li className="user-li nav-link">
             <div className="user-nav">
               <button className="user-button" onClick={handleClick}>
-                {user.username
-                  ? user.username
-                  : user.identifier
-                  ? user.identifier
-                  : "Login or Sign up"}
+                {user.username ? user.username : "Login or Sign up"}
               </button>
               {showDropdown && user && (
                 <ul className="user-dropdown">
-                  <li>Profile</li>
+                  <li className="user-dropdown-links">
+                    <>
+                      <FontAwesomeIcon icon={faUser} />
+                      <Link to="/" className="profile-link">
+                        {" "}
+                        My Profile
+                      </Link>
+                    </>
+                  </li>
                   <li
+                    className="user-dropdown-links signout-link"
                     onClick={() => {
                       signOut();
                       setShowDropdown(false);
                     }}
                   >
-                    Sign out
+                    <>
+                      <FontAwesomeIcon icon={faRightFromBracket} />
+                      Sign out
+                    </>
                   </li>
                 </ul>
               )}
@@ -65,8 +89,9 @@ const Navigation = ({ user, signOut, userHandler }: props) => {
               {showLoginForm && !user.identifier && !user.username && (
                 <LoginForm
                   handleForm={handleClick}
-                  // handleLogin={handleLogin}
                   userHandler={userHandler}
+                  form={form}
+                  toggleForm={toggleForm}
                 />
               )}
             </>

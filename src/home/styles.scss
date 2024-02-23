@@ -1,13 +1,24 @@
+@import "../variables";
+
 #home {
-  height: 50vh;
+  height: 65vh;
+  color: #b967ff;
+  position: relative;
+  background: url("../assets/bkg.png") center center/cover no-repeat;
 }
 
 .home-title {
-  font-size: 2.5rem;
+  font-size: 2rem;
+  color: $title;
+
+  @media (min-width: $desktop) {
+    font-size: 2.5rem;
+  }
 }
 
 .home-subtitle {
-  font-size: 1.2rem;
+  font-size: $subtext-size;
+  color: $subtext-color;
 }
 
 .home-container {
@@ -17,6 +28,14 @@
   height: 100%;
   justify-content: center;
   align-items: center;
+  padding: 0px 25px;
+}
+
+.text-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
 .home-get-started-button {

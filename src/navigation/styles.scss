@@ -1,9 +1,27 @@
+@import "../variables";
+
+#nav {
+  position: fixed;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.nav-link {
+  color: #ffff;
+  font-weight: 700;
+  text-decoration: none;
+}
+
 nav {
-  box-shadow: 2px 2px 2px purple;
   padding: 10px;
+
   ul {
     list-style: none;
     display: flex;
+    align-items: center;
     gap: 25px;
 
     .user-li {
@@ -19,7 +37,11 @@ nav {
 .user-button {
   color: white;
   background: none;
-  border: none;
+  padding: 2px 25px;
+  border-radius: 4px;
+  border: 1px solid #b967ff;
+  font-size: 16px;
+  font-weight: 700;
 }
 
 .user-dropdown {
@@ -36,4 +58,20 @@ nav {
   border-width: 2px;
   border-color: #eaeaea #75747b #75747b #eaeaea;
   border-style: solid;
+  z-index: 2;
+  color: black;
+}
+
+.user-dropdown-links {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: $transition;
+  text-decoration: none;
+}
+
+.profile-link {
+  color: black;
+  text-decoration: none;
 }

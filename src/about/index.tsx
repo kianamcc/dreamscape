@@ -4,8 +4,8 @@ const About = () => {
   return (
     <section id="about">
       <div className="about-container">
-        <h1>What is Dreamscape?</h1>
-        <p>
+        <h1 className="about-title">What is Dreamscape?</h1>
+        <p className="about-description">
           Dreamscape is a gateway to the fascinating realm of your subconscious
           mind.
           <br />

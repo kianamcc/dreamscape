@@ -4,6 +4,8 @@ import Search from "../search";
 
 import "./styles.scss";
 
+import { User } from "../App";
+
 export interface DreamObject {
   _id: string;
   title: string;
@@ -12,6 +14,7 @@ export interface DreamObject {
 
 export interface FormData {
   id?: string;
+  userId?: string;
   title: string;
   description: string;
 }
@@ -34,6 +37,7 @@ interface props {
     formData: DreamObject
   ) => void;
   error: boolean;
+  user: User;
 }
 
 const Dreams = ({
@@ -44,12 +48,14 @@ const Dreams = ({
   deleteDream,
   updateDream,
   error,
+  user,
 }: props) => {
   const [activeDream, setActiveDream] = useState<DreamObject>(
     filteredDreams[0] as DreamObject
   ); // set initial active dream as first dream entry if it exists
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
+    userId: user.userId,
     title: "",
     description: "",
   });
@@ -58,7 +64,6 @@ const Dreams = ({
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [activeDreamId, setActiveDreamId] = useState("");
-  // const [search, setSearch] = useState("");
   const [useFilteredDisplay, setUseFilteredDisplay] = useState(false);
 
   const handleEditButtonClick = (
@@ -108,6 +113,7 @@ const Dreams = ({
   const handleFormClick = () => {
     setShowForm((prev) => !prev);
     setFormData({
+      userId: user.userId,
       title: "",
       description: "",
     });
@@ -145,221 +151,205 @@ const Dreams = ({
 
   return (
     <section id="dreams">
-      <div className="dreams-header">
-        <h1>My Dreams</h1>
-      </div>
-      <>
-        {showForm && (
-          <form className="dream-form">
-            <div className="dream-form-container">
-              <button className="form-close-button" onClick={handleFormClick}>
-                Close
-              </button>
-              <input
-                name="title"
-                className={`form-input-box ${error ? "error" : ""}`}
-                placeholder="Enter a title..."
-                value={formData.title}
-                onChange={handleFormChange}
-              />
-              <textarea
-                name="description"
-                value={formData.description}
-                className="form-description-box"
-                placeholder="What was the dream about?"
-                onChange={handleFormChange}
-              />
-              <button
-                className="form-submit-button"
-                type="submit"
-                onClick={(e) => {
-                  addDream(e, formData);
-                  handleFormClick();
-                }}
-              >
-                Submit
-              </button>
-            </div>
-          </form>
-        )}
-        <div className="dream-entries-container">
-          <div className="top">
-            <Search
-              filteredDreams={filteredDreams}
-              allDreams={allDreams}
-              handleDreamFiltering={handleDreamFiltering}
-              handleDreamsDisplay={handleDreamsDisplay}
-            />
-            <button className="add-dream-button" onClick={handleFormClick}>
-              Add a dream
-            </button>
-          </div>
-          <div className="bottom">
-            <ul className="dream-container">
-              {/* {allDreams.map((dream, index) => (
-                <li
-                  key={dream._id}
-                  className={`dream-entry ${
-                    dream._id === activeDream?._id ? "active" : ""
-                  } ${
-                    editingMode && dream._id !== activeDream?._id
-                      ? "inactive"
-                      : ""
-                  }`}
-                  onClick={(e) => handleDreamClick(e, dream)}
-                >
-                  <h3 className="dream-entry-title">
-                    <span className="dream-entry-number">No. {index + 1} </span>
-                    <span
-                      className="dream-entry-name"
-                      style={{ fontWeight: 400 }}
-                    >
-                      {dream.title}
-                    </span>
-                  </h3>
-                  <div className="dream-entry-buttons">
-                    {editStates[index] ? (
-                      <button onClick={(e) => handleSaveButtonClick(e)}>
-                        Save
-                      </button>
-                    ) : (
-                      <button onClick={(e) => handleEditButtonClick(e, index)}>
-                        Edit
-                      </button>
-                    )}
-                    <button onClick={(e) => deleteDream(e, dream._id)}>
-                      Delete
-                    </button>
-                  </div>
-                </li>
-              ))} */}
-
-              {useFilteredDisplay ? (
-                <>
-                  {filteredDreams.map((dream, index) => (
-                    <li
-                      key={dream._id}
-                      className={`dream-entry ${
-                        dream._id === activeDream?._id ? "active" : ""
-                      } ${
-                        editingMode && dream._id !== activeDream?._id
-                          ? "inactive"
-                          : ""
-                      }`}
-                      onClick={(e) => handleDreamClick(e, dream)}
-                    >
-                      <h3 className="dream-entry-title">
-                        <span className="dream-entry-number">
-                          No. {index + 1}{" "}
-                        </span>
-                        <span
-                          className="dream-entry-name"
-                          style={{ fontWeight: 400 }}
-                        >
-                          {dream.title}
-                        </span>
-                      </h3>
-                      <div className="dream-entry-buttons">
-                        {editStates[index] ? (
-                          <button onClick={(e) => handleSaveButtonClick(e)}>
-                            Save
-                          </button>
-                        ) : (
-                          <button
-                            onClick={(e) => handleEditButtonClick(e, index)}
-                          >
-                            Edit
-                          </button>
-                        )}
-                        <button onClick={(e) => deleteDream(e, dream._id)}>
-                          Delete
-                        </button>
-                      </div>
-                    </li>
-                  ))}
-                </>
-              ) : (
-                <>
-                  {allDreams.map((dream, index) => (
-                    <li
-                      key={dream._id}
-                      className={`dream-entry ${
-                        dream._id === activeDream?._id ? "active" : ""
-                      } ${
-                        editingMode && dream._id !== activeDream?._id
-                          ? "inactive"
-                          : ""
-                      }`}
-                      onClick={(e) => handleDreamClick(e, dream)}
-                    >
-                      <h3 className="dream-entry-title">
-                        <span className="dream-entry-number">
-                          No. {index + 1}{" "}
-                        </span>
-                        <span
-                          className="dream-entry-name"
-                          style={{ fontWeight: 400 }}
-                        >
-                          {dream.title}
-                        </span>
-                      </h3>
-                      <div className="dream-entry-buttons">
-                        {editStates[index] ? (
-                          <button onClick={(e) => handleSaveButtonClick(e)}>
-                            Save
-                          </button>
-                        ) : (
-                          <button
-                            onClick={(e) => handleEditButtonClick(e, index)}
-                          >
-                            Edit
-                          </button>
-                        )}
-                        <button onClick={(e) => deleteDream(e, dream._id)}>
-                          Delete
-                        </button>
-                      </div>
-                    </li>
-                  ))}
-                </>
-              )}
-            </ul>
-            <div className="active-dream-description">
-              {editStates.some((state) => state === true) ? (
-                <>
-                  {" "}
-                  {editStates.map((index, i) => {
-                    return (
-                      index && (
-                        <span key={`edit-dream ${i}`}>
-                          <input
-                            key={i}
-                            name="edit-title"
-                            className={`form-input-box ${error ? "error" : ""}`}
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                          />
-                          <textarea
-                            name="edit-description"
-                            value={description}
-                            className="form-description-box"
-                            onChange={(e) => setDescription(e.target.value)}
-                          />
-                        </span>
-                      )
-                    );
-                  })}
-                </>
-              ) : (
-                <>
-                  <h3>{activeDream?.title}</h3>
-                  <div>{activeDream?.description}</div>
-                </>
-              )}
-            </div>
-          </div>
+      <div className="dreams-container">
+        <div className="dreams-header">
+          <h1>{user.username}'s dreams</h1>
         </div>
-      </>
+        <>
+          {showForm && (
+            <form className="dream-form">
+              <div className="dream-form-container">
+                <button className="form-close-button" onClick={handleFormClick}>
+                  Close
+                </button>
+                <input
+                  name="title"
+                  className={`form-input-box ${error ? "error" : ""}`}
+                  placeholder="Enter a title..."
+                  value={formData.title}
+                  onChange={handleFormChange}
+                />
+                <textarea
+                  name="description"
+                  value={formData.description}
+                  className="form-description-box"
+                  placeholder="What was the dream about?"
+                  onChange={handleFormChange}
+                />
+                <button
+                  className="form-submit-button"
+                  type="submit"
+                  onClick={(e) => {
+                    addDream(e, formData);
+                    handleFormClick();
+                  }}
+                >
+                  Submit
+                </button>
+              </div>
+            </form>
+          )}
+          <div className="dream-entries-container">
+            <div className="top">
+              <Search
+                filteredDreams={filteredDreams}
+                allDreams={allDreams}
+                handleDreamFiltering={handleDreamFiltering}
+                handleDreamsDisplay={handleDreamsDisplay}
+              />
+              <button className="add-dream-button" onClick={handleFormClick}>
+                Add a dream
+              </button>
+            </div>
+            <div className="bottom">
+              <ul className="dream-container">
+                {useFilteredDisplay ? (
+                  <>
+                    {filteredDreams.map((dream, index) => (
+                      <li
+                        key={dream._id}
+                        className={`dream-entry ${
+                          dream._id === activeDream?._id ? "active" : ""
+                        } ${
+                          editingMode && dream._id !== activeDream?._id
+                            ? "inactive"
+                            : ""
+                        }`}
+                        onClick={(e) => handleDreamClick(e, dream)}
+                      >
+                        <h3 className="dream-entry-title">
+                          <span className="dream-entry-number">
+                            No. {index + 1}{" "}
+                          </span>
+                          <span
+                            className="dream-entry-name"
+                            style={{ fontWeight: 400 }}
+                          >
+                            {dream.title}
+                          </span>
+                        </h3>
+                        <div className="dream-entry-buttons">
+                          {editStates[index] ? (
+                            <button
+                              className="dream-entry-button"
+                              onClick={(e) => handleSaveButtonClick(e)}
+                            >
+                              Save
+                            </button>
+                          ) : (
+                            <button
+                              className="dream-entry-button"
+                              onClick={(e) => handleEditButtonClick(e, index)}
+                            >
+                              Edit
+                            </button>
+                          )}
+                          <button
+                            className="dream-entry-button"
+                            onClick={(e) => deleteDream(e, dream._id)}
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </li>
+                    ))}
+                  </>
+                ) : (
+                  <>
+                    {allDreams.map((dream, index) => (
+                      <li
+                        key={dream._id}
+                        className={`dream-entry ${
+                          dream._id === activeDream?._id ? "active" : ""
+                        } ${
+                          editingMode && dream._id !== activeDream?._id
+                            ? "inactive"
+                            : ""
+                        }`}
+                        onClick={(e) => handleDreamClick(e, dream)}
+                      >
+                        <h3 className="dream-entry-title">
+                          <span className="dream-entry-number">
+                            No. {index + 1}{" "}
+                          </span>
+                          <span
+                            className="dream-entry-name"
+                            style={{ fontWeight: 400 }}
+                          >
+                            {dream.title}
+                          </span>
+                        </h3>
+                        <div className="dream-entry-buttons">
+                          {editStates[index] ? (
+                            <button
+                              onClick={(e) => handleSaveButtonClick(e)}
+                              className="dream-entry-button"
+                            >
+                              Save
+                            </button>
+                          ) : (
+                            <button
+                              onClick={(e) => handleEditButtonClick(e, index)}
+                              className="dream-entry-button"
+                            >
+                              Edit
+                            </button>
+                          )}
+                          <button
+                            onClick={(e) => deleteDream(e, dream._id)}
+                            className="dream-entry-button"
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </li>
+                    ))}
+                  </>
+                )}
+              </ul>
+              <div className="active-dream-description">
+                {editStates.some((state) => state === true) ? (
+                  <>
+                    {" "}
+                    {editStates.map((index, i) => {
+                      return (
+                        index && (
+                          <div
+                            key={`edit-dream ${i}`}
+                            className="edit-container"
+                          >
+                            <input
+                              key={i}
+                              name="edit-title"
+                              className={`form-input-box ${
+                                error ? "error" : ""
+                              }`}
+                              style={{ fontWeight: 700, fontSize: "18.72px" }}
+                              value={title}
+                              onChange={(e) => setTitle(e.target.value)}
+                            />
+                            <textarea
+                              name="edit-description"
+                              value={description}
+                              className="form-description-box"
+                              onChange={(e) => setDescription(e.target.value)}
+                            />
+                          </div>
+                        )
+                      );
+                    })}
+                  </>
+                ) : (
+                  <>
+                    <h3>{activeDream?.title}</h3>
+                    <div>{activeDream?.description}</div>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        </>
+      </div>
     </section>
   );
 };

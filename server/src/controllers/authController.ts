@@ -5,8 +5,6 @@ import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../config";
 import User from "../models/userModel";
 
-console.log(JWT_SECRET);
-
 export const register = async (req: Request, res: Response) => {
   try {
     const { username, email, password } = req.body;
@@ -22,7 +20,7 @@ export const register = async (req: Request, res: Response) => {
     const userExistsByEmail = await User.findOne({ email });
 
     if (userExistsByUsername || userExistsByEmail) {
-      res.status(400).json({ error: "User already exists." });
+      res.status(409).json({ error: "User already exists." });
       return;
     }
 
@@ -31,15 +29,15 @@ export const register = async (req: Request, res: Response) => {
     const newUser = new User({ username, email, password: hashedPassword });
     await newUser.save();
 
-    // const jwtToken = jwt.sign(
-    //   { userId: user._id, username: user.username, email: user.email },
-    //   JWT_SECRET,
-    //   {
-    //     expiresIn: "24h",
-    //   }
-    // );
+    const jwtToken = jwt.sign(
+      { userId: newUser._id, username: newUser.username, email: newUser.email },
+      JWT_SECRET,
+      {
+        expiresIn: "24h",
+      }
+    );
 
-    // res.json({ jwtToken });
+    res.json({ jwtToken });
 
     res.json({ message: "User registered successfully!" });
   } catch (error) {
@@ -85,7 +83,6 @@ export const login = async (req: Request, res: Response) => {
 
 export const signout = (req: Request, res: Response) => {
   try {
-    res.clearCookie("jwtToken");
     res.status(200).json({ message: "User signed out successfully." });
   } catch (error) {
     res.status(500).json({ error: "Oops. There was an error signing out." });

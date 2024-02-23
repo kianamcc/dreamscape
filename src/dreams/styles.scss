@@ -5,8 +5,28 @@ $border-style: solid;
 $text-indent: 8px;
 
 #dreams {
-  padding: 0px 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 100vh;
+  width: 100%;
+}
+
+.edit-container {
+  flex: 1;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  input,
+  textarea {
+    background: none;
+  }
+}
+
+.dreams-container {
+  width: 90%;
 }
 
 .dreams-header {
@@ -66,11 +86,21 @@ $text-indent: 8px;
   display: flex;
   flex: 1;
   gap: 16px;
+  overflow-y: scroll;
 }
 
 .dream-entry-buttons {
   display: flex;
+  align-items: center;
   gap: 5px;
+  margin-right: 15px;
+}
+
+.dream-entry-button {
+  height: 25px;
+  border-width: $border-width;
+  border-style: $border-style;
+  border-color: $border-color;
 }
 
 .dream-form {
@@ -181,6 +211,8 @@ $text-indent: 8px;
 .dream-container {
   display: flex;
   flex-direction: column;
+  width: 364px;
+  height: 400px;
 }
 
 .active {

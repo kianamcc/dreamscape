@@ -1,16 +1,19 @@
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Navigation from "./navigation";
 import Home from "./home";
 import About from "./about";
 import Benefits from "./benefits";
+import Footer from "./footer";
 import Dreams, { DreamObject } from "./dreams";
 import { FormData } from "./dreams";
 
 export interface User {
   username?: string;
   identifier?: string;
+  userId?: string;
 }
 
 function App() {
@@ -19,7 +22,9 @@ function App() {
   const [filteredDreams, setFilteredDreams] = useState<DreamObject[]>([]);
   const [showLoginForm, setShowLoginForm] = useState(false);
   const [user, setUser] = useState<User>({});
+  const [form, setForm] = useState<"signup" | "login">("signup");
 
+  /* UseEffects */
   useEffect(() => {
     getDreams();
     const token = localStorage.getItem("jwtToken");
@@ -30,28 +35,35 @@ function App() {
     }
   }, []);
 
+  useEffect(() => {
+    getDreams();
+  }, [user]);
+
+  /* Functions */
   const handleDreamFiltering = (filteredDreams: DreamObject[]) => {
     setFilteredDreams(filteredDreams);
   };
 
-  const handleForm = () => {
-    setShowLoginForm((prev) => !prev);
+  const toggleForm = () => {
+    setForm(form === "signup" ? "login" : "signup");
   };
 
-  // const handleLogin = (user: User) => {
-  //   setUser(user);
-  // };
+  const userHandler = (token: string) => {
+    const decodedUser = jwtDecode(token) as User;
+    setUser(decodedUser);
+  };
 
   const getDreams = () => {
     console.log("getting/updating dreams...");
-    fetch("api/dreams")
-      .then((res) => res.json())
-      .then((data) => {
-        setFilteredDreams(data);
-        setAllDreams(data);
-        console.log("getDreams", filteredDreams);
-      })
-      .catch((error) => console.log("An error has occured: ", error));
+    JSON.stringify(user) !== "{}" &&
+      fetch(`api/dreams?userId=${user.userId}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setFilteredDreams(data);
+          setAllDreams(data);
+          console.log("getDreams", filteredDreams);
+        })
+        .catch((error) => console.log("An error has occured: ", error));
   };
 
   const addDream = (
@@ -131,38 +143,57 @@ function App() {
       .catch((error) => console.log("Error: ", error));
   };
 
-  const userHandler = (token: string) => {
-    const decodedUser = jwtDecode(token) as User;
-    setUser(decodedUser);
-  };
-
   return (
-    <>
+    <BrowserRouter>
       <Navigation
         user={user}
-        handleForm={handleForm}
+        handleForm={() => setShowLoginForm(!showLoginForm)}
         signOut={signOut}
         userHandler={userHandler}
-      />
-      <Home
-        handleForm={handleForm}
         showLoginForm={showLoginForm}
-        userHandler={userHandler}
+        form={form}
+        toggleForm={toggleForm}
       />
-      <About />
-      <Benefits />
-      {allDreams && (
-        <Dreams
-          error={error}
-          filteredDreams={filteredDreams}
-          allDreams={allDreams}
-          addDream={addDream}
-          deleteDream={deleteDream}
-          updateDream={updateDream}
-          handleDreamFiltering={handleDreamFiltering}
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <Home
+                user={user}
+                handleForm={() => setShowLoginForm(!showLoginForm)}
+                showLoginForm={showLoginForm}
+                userHandler={userHandler}
+                form={form}
+                toggleForm={toggleForm}
+              />
+              <About />
+              <Benefits />
+            </>
+          }
         />
-      )}
-    </>
+        <Route
+          path="/dreams"
+          element={
+            <>
+              {JSON.stringify(user) !== "{}" && (
+                <Dreams
+                  user={user}
+                  error={error}
+                  filteredDreams={filteredDreams}
+                  allDreams={allDreams}
+                  addDream={addDream}
+                  deleteDream={deleteDream}
+                  updateDream={updateDream}
+                  handleDreamFiltering={handleDreamFiltering}
+                />
+              )}
+            </>
+          }
+        />
+      </Routes>
+      <Footer />
+    </BrowserRouter>
   );
 }
 

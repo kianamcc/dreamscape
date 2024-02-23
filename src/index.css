@@ -3,13 +3,36 @@
 }
 
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: black;
-  color: #b967ff;
+  font-family: "Exo 2", sans-serif;
+  font-optical-sizing: auto;
+  line-height: 1.8rem;
+  background: rgb(22, 0, 41);
+  background: -moz-linear-gradient(
+    180deg,
+    rgba(22, 0, 41, 1) 49%,
+    rgba(71, 15, 120, 1) 73%,
+    rgba(112, 46, 176, 1) 89%,
+    rgba(135, 73, 171, 1) 100%
+  );
+  background: -webkit-linear-gradient(
+    180deg,
+    rgba(22, 0, 41, 1) 49%,
+    rgba(71, 15, 120, 1) 73%,
+    rgba(112, 46, 176, 1) 89%,
+    rgba(135, 73, 171, 1) 100%
+  );
+  background: linear-gradient(
+    180deg,
+    rgba(22, 0, 41, 1) 49%,
+    rgba(71, 15, 120, 1) 73%,
+    rgba(112, 46, 176, 1) 89%,
+    rgba(135, 73, 171, 1) 100%
+  );
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#160029",endColorstr="#8749ab",GradientType=1);
 }
 
 body {
@@ -19,8 +42,6 @@ body {
 }
 
 ul,
-h1,
-h3,
 p {
   margin: 0;
   padding: 0;

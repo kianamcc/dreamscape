@@ -2,14 +2,26 @@ import { Request, Response } from "express";
 import dreamModel from "../models/dreamModel";
 
 export const getDream = async (req: Request, res: Response) => {
-  const dreams = await dreamModel.find(); // give us all dreams from database
-  res.send(dreams);
+  try {
+    const userId = req.query.userId;
+    if (!userId) {
+      return res
+        .status(400)
+        .json({ error: "User ID is required to get dreams." });
+    }
+    const dreams = await dreamModel.find({ user: userId });
+    res.json(dreams);
+  } catch (error) {
+    res.status(500).json({ error: "Error" });
+  }
 };
 
-export const addDream = async (req: Request, res: Response): Promise<void> => {
-  const { _id, title, description } = req.body;
+export const addDream = (req: Request, res: Response) => {
+  const { _id, title, description, userId } = req.body;
+  console.log("user id in add dream", userId);
+
   dreamModel
-    .create({ _id, title, description })
+    .create({ _id, title, description, user: userId })
     .then((data) => {
       res.send(data);
     })
@@ -44,7 +56,7 @@ export const updateDream = async (
   }
 };
 
-export const deleteDream = async (req: Request, res: Response) => {
+export const deleteDream = (req: Request, res: Response) => {
   const { _id } = req.body;
 
   dreamModel
