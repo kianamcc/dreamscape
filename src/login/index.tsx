@@ -66,6 +66,7 @@ const LoginForm = ({ handleForm, userHandler, form, toggleForm }: Props) => {
         <form
           className="login-form"
           id="login-form"
+          data-testid="signup-form"
           onSubmit={handleFormSubmit}
         >
           <button className="close-form-button" onClick={handleForm}>
@@ -122,6 +123,7 @@ const LoginForm = ({ handleForm, userHandler, form, toggleForm }: Props) => {
         <form
           className="login-form"
           id="login-form"
+          data-testid="login-form"
           onSubmit={handleFormSubmit}
         >
           <button className="close-form-button" onClick={handleForm}>

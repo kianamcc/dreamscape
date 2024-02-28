@@ -19,6 +19,10 @@ $border-style: solid;
   display: flex;
   flex-direction: column;
 
+  @media (min-width: $tablet) {
+    width: 50%;
+  }
+
   @media (min-width: $desktop) {
     width: 30%;
   }

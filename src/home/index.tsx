@@ -22,7 +22,7 @@ const Home = ({
   toggleForm,
 }: props) => {
   return (
-    <section id="home">
+    <section id="home" data-testid="home">
       <div className="home-container">
         <div className="text-container">
           <h1 className="home-title">
