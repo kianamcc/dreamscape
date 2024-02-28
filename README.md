@@ -1,3 +1,7 @@
+# Dreamscape
+
+<img width="1434" alt="Screenshot 2024-02-27 at 12 07 43 PM" src="https://github.com/kianamcc/dreamscape/assets/42532725/5404e4a4-abaa-4594-a734-2508d5dd12d1">
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
